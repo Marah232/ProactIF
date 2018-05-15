@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link type="text/css" rel="stylesheet" href="fichier_CSS.css">
+        <title>Title</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    </head>
+    <body>
+        <header>
+            <center>
+                <img alt="logo" src="images/logo.PNG">
+
+            </center>
+        </header>
+
+        <fieldset class="formulaire_inscription">
+            <legend align="left"> Inscription: </legend>
+
+            <label for="Civilite"> Civilité </label><input type="text" id="Civilite" /><br>
+            <label for="Nom">Nom   </label>         <input type="text" id="Nom"  /><br>
+            <label for="Prenom">Prenom   </label>         <input type="text" id="Prenom"  /><br>
+            <label for="Telephone">    Telephone </label>  <input type="text" id="Telephone" /><br>
+            <label for="adresseMail">    Adresse mail </label>  <input type="text" id="adresseMail" /><br>
+            <label for="DatedeNaissance"> Date de naissance </label> <input type="date" id="DatedeNaissance"  /><br>
+            <label for="Ville">Ville</label> <input type="text" id="Ville" /><br>
+            <label for=CodePostal>Code Postal</label> <input type="text" id="CodePostal"  /><br>
+            <label for=RueEtNumero>Rue et numéro </label><input type="text" id="RueEtNumero" /><br>
+            <label for=ComplementAdresse>Complement d'adresse</label> <input type="text" id="ComplementAdresse" /><br>
+            <label for=MotPasse> Mot de passe</label> <input type="password" id="MotPasse"  /><br>
+            <label for="ConfirmationMotdePasse"> Confirmation du mot de passe</label> <input type="password" id="ConfirmationMotdePasse" /><br>
+
+
+
+            <center><button  id="bouton-inscription"  >valider</button> </center>
+
+
+        </fieldset>
+
+        <script>
+
+            function register() {
+                var Champcivilite = $('#Civilite').val();
+                var Champnom = $('#Nom').val();
+                var ChampPrenom = $('#Prenom').val();
+                var ChampTelephone = $('#Telephone').val();
+                var ChampadresseMail = $('#adresseMail').val();
+                var ChampDatedeNaissance = $('#DatedeNaissance').val();
+                var ChampVille = $('#Ville').val();
+                var ChampCodePostal = $('#CodePostal').val();
+                var ChampRueEtNumero = $('#RueEtNumero').val();
+                var ChampComplementAdresse = $('#adresseMail').val();
+                var ChampMotPasse = $('#MotPasse').val();
+                var ChampConfirmationMotdePasse = $('#ConfirmationMotdePasse').val();
+                $('#message').html('Connexion en cours...');
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'register',
+                        civilite: Champcivilite,
+                        nom: Champnom,
+                        prenom: ChampPrenom,
+                        telephone: ChampTelephone,
+                        adresseMail: ChampadresseMail,
+                        DatedeNaissance: ChampDatedeNaissance,
+                        Ville: ChampVille,
+                        CodePostal: ChampCodePostal,
+                        RueEtNumero: ChampRueEtNumero,
+                        ComplementAdresse: ChampComplementAdresse,
+                        MotPasse: ChampMotPasse
+
+                    },
+                    dataType: 'json'
+
+
+                }).done(function (data) {
+                    var bool = data.valueOf();
+
+
+                    if (bool) {
+                       
+                            window.location = "login.html";
+
+                    } else {
+                        Console.log("L'inscription n'est pas réussie ,veuillez recommencer");
+                        window.location = "login.html";
+                    }
+                    // ici votre code...
+                    // 
+
+
+                    //var personne = data.personne[0];
+
+                    // si connexion ok, aller sur la page suivante :
+                    //window.location = "maPageSuivante.html";
+                    // si connexion pas ok afficher un texte dans la div message :
+                    //$('#message').html('Echec de la connexion');*/
+                });
+            }
+
+            $(document).ready(function () {
+                // ajout d'un "handler" sur le clic du bouton de connexion
+
+                $('#bouton-inscription').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Se Connecter"');
+                    register();
+                    // appel de la fonction connexion
+
+                });
+            });
+
+        </script>
+        <footer>
+            <ul id="menu_horizontal">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="forum.html">A propos de Proact'IF</a></li>
+                <li><a href="contact.html">Mentions légales</a></li>
+                <li><a href="contact.html">CGV</a></li>
+            </ul>
+        </footer>
+    </body>
+</html>

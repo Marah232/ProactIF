@@ -1,0 +1,6 @@
+com\mycompany\tp\ihm\Action.class
+com\mycompany\tp\ihm\ActionServlet.class
+com\mycompany\tp\ihm\LoginAction.class
+com\mycompany\tp\ihm\RegisterAction.class
+com\mycompany\tp\ihm\EmployeAction.class
+com\mycompany\tp\ihm\Serializer.class

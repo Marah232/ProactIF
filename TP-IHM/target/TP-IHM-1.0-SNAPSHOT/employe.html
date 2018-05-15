@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Proact'IF - Accueil employé</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link type="text/css" rel="stylesheet" href="fichier_CSS.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <img alt="logo" src="images/logo.PNG" width="200"> 
+            <br>
+                Bonjour <div id="nom"></div> <br>
+                Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
+                <div align="right">
+                    <ul id="menu_horizontal">
+                        <li><a href="employe.html">Accueil</a></li>
+                        <li><a href="today.html">Interventions du jour</a></li>
+
+                    </ul>
+                </div>
+         </header>
+        <script>
+
+            function connexion() {
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'employe',
+                    },
+                    dataType: 'json'
+
+                }).always(function (data) {
+                    
+                    var personne=data.noms; 
+                   // var interventions=data.interventions[0];
+                   // console.log(interventions.valueOf());
+                    $('#nom').html(personne[1]+" "+ personne[0]);
+                });
+            }
+            $(document).ready(function () {
+                connexion();   
+            });
+        </script>
+    <footer>
+        <ul id="menu_horizontal">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="forum.html">A propos de Proact'IF</a></li>
+            <li><a href="contact.html">Mentions légales</a></li>
+            <li><a href="contact.html">CGV</a></li>
+        </ul>
+    </footer>
+</body>
+</html>
