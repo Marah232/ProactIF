@@ -29,6 +29,12 @@
 
         <script type="text/javascript">
 
+            
+
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAklw96N9rLd93ubr-F04CN7qi2ryKayAc&callback=initMap">
+        </script>
+        <script>
             var googleMapInstance = null;
 
             function makeInfoWindow(title) {
@@ -81,66 +87,82 @@
                 });
 
                 // Simuler un appel AJAX (attente 5s)
-                setTimeout(
-                        generateMarkers,
-                        5000
-                        );
+               
             }
 
-            function generateMarkers() {
 
-                // Petite popup Google Maps
-               /* var infowindow = makeInfoWindow('');
-
-                var position = {lat: 45.782122, lng: 4.872735};
-
-                for (var i = 0; i < 100; i++) {
-
-                    var iconImage = null; // marker par défaut
-                    if (i % 2 === 0) {
-                        // image pour marker personnalisé
-                        iconImage = {url: './image/UnderConstruction.png', scaledSize: new google.maps.Size(32, 32)}
-                    }
-
-                    var marker = new google.maps.Marker({
+            function generateMarkers(interventions) {
+                console.log("je suis là");
+                 var infowindow = makeInfoWindow('');
+                 var position={lat: 45.782122, lng: 4.872735};
+                 for(var i=0;i<interventions.length;i++){
+                     var iconImage = null;
+                     position.lat=interventions[i].Latitude;
+                     position.lng=interventions[i].Longitude;
+                     var marker = new google.maps.Marker({
                         map: googleMapInstance,
-                        position: {lat: position.lat + (Math.random() - 0.5) / 10.0, lng: position.lng + 2 * (Math.random() - 0.5) / 10.0},
-                        title: 'Endroit #' + i,
+                        position: {lat: position.lat, lng: position.lng},
+                        Description:interventions[i].Description,
+                        NomClient:interventions[i].Nom_Client,
+                        PrenomClient:interventions[i].Prenom_Client,
+                        NomEmploye:interventions[i].Nom_Employe,
+                        PrenomEmploye:interventions[i].Prenom_Employe,
+                        Type:interventions[i].Type,
+                        DateDebut:interventions[i].Date_Debut,
+                        Status:interventions[i].Status,
                         icon: iconImage
                     });
-
-                    attachInfoWindow(
+                     attachInfoWindow(
                             marker, infowindow,
-                            '<div><strong><a href="./endroit.html?' + i + '">Endroit #' + i + '</a></strong><br/>Ceci est l\'endroit charmant numéro ' + i + '<br/>' + 'Incroyable !' + '</div>'
+                            '<div>'+"Type :" + marker.Type + " " +marker.DateDebut + " " + marker.Status + '</br>' +
+                                    "Description : "+marker.Description+ '</br>' + 
+                                    "Client :"+marker.PrenomClient +" " + marker.NomClient + '</br>' + 
+                                    "Prise en charge par :" +marker.PrenomEmploye + " " + marker.NomEmploye+ 
+                             '</div>'
                             );
-                }*/
-
+                 }
             }
-
-        </script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAklw96N9rLd93ubr-F04CN7qi2ryKayAc&callback=initMap">
-        </script>
-        <script>
-
-            function connexion() {
+            function getNom() {
                 $.ajax({
                     url: './ActionServlet',
                     method: 'POST',
                     data: {
-                        todo: 'employe',
+                        todo: 'today_Nom'
                     },
                     dataType: 'json'
 
                 }).always(function (data) {
                     
                     var personne=data.noms; 
-                   // var interventions=data.interventions[0];
-                   // console.log(interventions.valueOf());
+                  
+              
                     $('#nom').html(personne[1]+" "+ personne[0]);
                 });
             }
+            function recupererInterventions() {
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'today'
+                    },
+                    dataType: 'json'
+
+                }).done(function (data) {
+                    
+                    var interventions=data.interventions; 
+                    
+                    if(interventions!=="undefined"){
+                        console.log("icvi");
+                        generateMarkers(interventions);
+                    }
+                   
+                    
+                });
+            }
             $(document).ready(function () {
-                connexion();   
+                getNom();   
+                recupererInterventions();
             });
         </script>
          <footer>

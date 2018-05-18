@@ -16,16 +16,37 @@ and open the template in the editor.
         <header>
             <img alt="logo" src="images/logo.PNG" width="200"> 
             <br>
-                Bonjour <div id="nom"></div> <br>
-                Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
-                <div align="right">
-                    <ul id="menu_horizontal">
-                        <li><a href="employe.html">Accueil</a></li>
-                        <li><a href="today.html">Interventions du jour</a></li>
+            Bonjour <div id="nom"></div> <br>
+            Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
+            <div align="right">
+                <ul id="menu_horizontal">
+                    <li><a href="employe.html">Accueil</a></li>
+                    <li><a href="today.html">Interventions du jour</a></li>
 
-                    </ul>
-                </div>
-         </header>
+                </ul>
+            </div>
+        </header>
+        <div id="message" align="center"> </div>
+        <div id="intervention" > 
+
+        </div>
+        <div id="formulaire" style="display:none" >
+
+            Commentaires : <input type='text' id='commentaires' > <br>
+            Etat de l'intervention :<br>
+            <input type="radio" id="Choice1"
+                   name="contact" value="Realisee">
+            <label for="Choice1">Realisee</label>
+
+            <input type="radio" id="Choice2"
+                   name="contact" value="Probleme">
+            <label for="Choice2">Probleme</label>
+            
+            <button id="cloturer">Clôturer</button>
+        </div>
+
+
+
         <script>
 
             function connexion() {
@@ -33,29 +54,82 @@ and open the template in the editor.
                     url: './ActionServlet',
                     method: 'POST',
                     data: {
-                        todo: 'employe',
+                        todo: 'employe'
                     },
                     dataType: 'json'
 
                 }).always(function (data) {
+
+                    var inter = data.intervention;
+                    console.log(inter);
+                    $('#nom').html(inter[0].Nom_Employe + " " + inter[0].Prenom_Employe);
+
+                    if (inter[0].PresenceIntervention === "NON") {
+                        $('#message').html("<h1><b>Pas d'intervention en cours</b></h1>");
+
+                    } else {
+                        $('#message').html("<h1><b>Votre intervention en cours</b></h1>");
+                        $('#intervention').html(
+                                "<p>" +
+                                inter[0].Type + " " + inter[0].Date_Debut + " En cours </br>" +
+                                "Description :" + inter[0].Description + "</br>" +
+                                "Client : " + inter[0].Prenom_Client + " " + inter[0].Nom_Client + "</br>" +
+                                "Adresse : " + inter[0].Rue + " " + inter[0].CodePostal + " " + inter[0].Ville + "</br>" +
+                                "Complement d'Adresse : " + inter[0].Complement + "</br>" +
+                                "Espece de l'animal : " + inter[0].Type +
+                                "</p>" + "<hr>"
+                                );
+                        $('#formulaire').attr('style', 'display:block;');
+
+                    }
+                });
+            }
+            function cloturer() {
+                var champcommentaires = $('#commentaires').val();
+                var champstatus=$('input[name=contact]:checked').val();
+  
+                console.log(champcommentaires);
+            
+                $.ajax({
+                     
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'cloturer',
+                        commentaires: champcommentaires,
+                        statusIntervention: champstatus
+                    },
+                    dataType: 'json'
+
+                }).done(function (data) {
+                        if(data==="true"){
+                             $('#message').html("<h1><b>Votre intervention a éte cloturée</b></h1>");
+                        }
+                        else{
+                            $('#message').html("<h1><b>Il y'a eu un problème lors de l'intervention</b></h1>");
+                        }
+                  
+
                     
-                    var personne=data.noms; 
-                   // var interventions=data.interventions[0];
-                   // console.log(interventions.valueOf());
-                    $('#nom').html(personne[1]+" "+ personne[0]);
                 });
             }
             $(document).ready(function () {
-                connexion();   
+                connexion();
+                $('#cloturer').on('click', function () {
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Cloturêr"');
+                    // appel de la fonction connexion
+                    cloturer();
+                });
             });
         </script>
-    <footer>
-        <ul id="menu_horizontal">
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="forum.html">A propos de Proact'IF</a></li>
-            <li><a href="contact.html">Mentions légales</a></li>
-            <li><a href="contact.html">CGV</a></li>
-        </ul>
-    </footer>
-</body>
+        <footer>
+            <ul id="menu_horizontal">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="forum.html">A propos de Proact'IF</a></li>
+                <li><a href="contact.html">Mentions légales</a></li>
+                <li><a href="contact.html">CGV</a></li>
+            </ul>
+        </footer>
+    </body>
 </html>

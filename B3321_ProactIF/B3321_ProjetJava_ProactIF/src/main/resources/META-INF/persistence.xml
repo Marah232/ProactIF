@@ -11,9 +11,9 @@
     <class>modele.InterventionLivraison</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/ProactIF_BD"/>
-      <property name="javax.persistence.jdbc.user" value="marah"/>
+      <property name="javax.persistence.jdbc.user" value="Marah"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-      <property name="javax.persistence.jdbc.password" value="123456"/>
+      <property name="javax.persistence.jdbc.password" value="1234"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
