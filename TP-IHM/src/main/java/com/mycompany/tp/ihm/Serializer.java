@@ -107,6 +107,7 @@ public class Serializer {
                 jsonIntervention.addProperty("Prenom_Client", inter.getClient().getPrenom());
                 jsonIntervention.addProperty("Nom_Employe", inter.getEmploye().getNom());
                 jsonIntervention.addProperty("Prenom_Employe", inter.getEmploye().getPrenom());
+                jsonIntervention.addProperty("Label",inter.getTypeLabel());
                 jsonIntervention.addProperty("Status", inter.getStatus());
                 jsonIntervention.addProperty("Type", inter.getTypeLabel());
                 jsonIntervention.addProperty("Date_Debut", Date_Debut);

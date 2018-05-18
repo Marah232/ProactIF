@@ -19,7 +19,7 @@ footer {
 
 }
 .formulaire_connexion{
-    width: 20%;
+      width: 20%;
     border: 3px black solid;
 
     margin-left: 40%;
@@ -29,6 +29,17 @@ footer {
     border: 3px black solid;
 
     margin-left: 35%;
+}
+.formulaire_intervention{
+    width: 30%;
+    border: 3px black solid;
+
+    margin-left: 35%;
+
+    
+}
+hr{
+    width:100%;
 }
 
 label

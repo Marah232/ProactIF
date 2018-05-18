@@ -57,42 +57,11 @@
                     center: {lat: 45.7601424, lng: 4.8961779},
                     zoom: 13
                 });
-
-                var infowindow = makeInfoWindow('');
-
-                var marker = new google.maps.Marker({
-                    map: googleMapInstance,
-                    position: {lat: 45.782122, lng: 4.872735},
-                    title: "Département IF, INSA de Lyon",
-                    icon: {url: './image/bird.png', scaledSize: new google.maps.Size(32, 32)}
-                });
-
-                marker.addListener('click', function () {
-
-                    infowindow.setContent('<div>Information: ' + marker.title + '</div>');
-                    infowindow.open(googleMapInstance, marker);
-                });
-
-                var marker2 = new google.maps.Marker({
-                    map: googleMapInstance,
-                    position: {lat: 45.782592, lng: 4.878238},
-                    title: "Entrée principale, INSA de Lyon",
-                    icon: {url: './image/snake.png', scaledSize: new google.maps.Size(32, 32)}
-                });
-
-                marker2.addListener('click', function () {
-
-                    infowindow.setContent('<div>Information: ' + marker2.title + '</div>');
-                    infowindow.open(googleMapInstance, marker2);
-                });
-
-                // Simuler un appel AJAX (attente 5s)
-               
             }
 
 
             function generateMarkers(interventions) {
-                console.log("je suis là");
+                   initMap()
                  var infowindow = makeInfoWindow('');
                  var position={lat: 45.782122, lng: 4.872735};
                  for(var i=0;i<interventions.length;i++){
@@ -153,7 +122,7 @@
                     var interventions=data.interventions; 
                     
                     if(interventions!=="undefined"){
-                        console.log("icvi");
+                        
                         generateMarkers(interventions);
                     }
                    

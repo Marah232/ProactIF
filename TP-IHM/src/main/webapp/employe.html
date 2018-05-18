@@ -26,24 +26,30 @@ and open the template in the editor.
                 </ul>
             </div>
         </header>
+        
         <div id="message" align="center"> </div>
+        <fieldset class="formulaire_intervention">
         <div id="intervention" > 
 
         </div>
-        <div id="formulaire" style="display:none" >
-
-            Commentaires : <input type='text' id='commentaires' > <br>
+        
+             <div id="formulaire" style="display:none"  >
+                 <hr>
+                 Commentaires  <input type='text' id='commentaires' > <br>
             Etat de l'intervention :<br>
             <input type="radio" id="Choice1"
-                   name="contact" value="Realisee">
+                   name="contact" value="Realisee" checked="checked">
             <label for="Choice1">Realisee</label>
 
             <input type="radio" id="Choice2"
                    name="contact" value="Probleme">
             <label for="Choice2">Probleme</label>
-            
+            </br>             </br>
+
             <button id="cloturer">Clôturer</button>
         </div>
+        </fieldset>
+       
 
 
 
@@ -70,14 +76,14 @@ and open the template in the editor.
                     } else {
                         $('#message').html("<h1><b>Votre intervention en cours</b></h1>");
                         $('#intervention').html(
-                                "<p>" +
+                                
                                 inter[0].Type + " " + inter[0].Date_Debut + " En cours </br>" +
                                 "Description :" + inter[0].Description + "</br>" +
                                 "Client : " + inter[0].Prenom_Client + " " + inter[0].Nom_Client + "</br>" +
                                 "Adresse : " + inter[0].Rue + " " + inter[0].CodePostal + " " + inter[0].Ville + "</br>" +
                                 "Complement d'Adresse : " + inter[0].Complement + "</br>" +
-                                "Espece de l'animal : " + inter[0].Type +
-                                "</p>" + "<hr>"
+                                "Espece de l'animal : " + inter[0].Type 
+                              
                                 );
                         $('#formulaire').attr('style', 'display:block;');
 
@@ -108,6 +114,7 @@ and open the template in the editor.
                         else{
                             $('#message').html("<h1><b>Il y'a eu un problème lors de l'intervention</b></h1>");
                         }
+                        window.location.reload();
                   
 
                     
