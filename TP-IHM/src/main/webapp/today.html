@@ -25,6 +25,7 @@
                 </div>
          </header>
         <h1> Interventions du jour</h1>
+        <div id="nombreInterventions" align="center"> </div>
         <div id="map"></div>
 
         <script type="text/javascript">
@@ -66,6 +67,12 @@
                  var position={lat: 45.782122, lng: 4.872735};
                  for(var i=0;i<interventions.length;i++){
                      var iconImage = null;
+                     if(interventions[i].Status==="E"){
+                         interventions[i].Status="En cours";
+                     }
+                     else{
+                         interventions[i].Status="Terminé";
+                     }
                      position.lat=interventions[i].Latitude;
                      position.lng=interventions[i].Longitude;
                      var marker = new google.maps.Marker({
@@ -122,7 +129,18 @@
                     var interventions=data.interventions; 
                     
                     if(interventions!=="undefined"){
-                        
+                        var compteur=0;
+                         for(var i=0;i<interventions.length;i++){
+                             if(interventions[i].Status==="E"){
+                                 compteur=compteur+1;
+                             }
+                         }
+                        if(interventions.length===1){
+                             $('#nombreInterventions').html("<h3> "+interventions.length +" intervention aujourd'hui dont " + compteur+ " encore en cours" +"</h3>" );
+                        }
+                        else{
+                            $('#nombreInterventions').html("<h3> " +interventions.length +" interventions aujourd'hui dont " + compteur+ " encore en cours"+ "</h3>" );
+                        }
                         generateMarkers(interventions);
                     }
                    

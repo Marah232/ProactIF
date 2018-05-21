@@ -26,36 +26,36 @@ and open the template in the editor.
                 </ul>
             </div>
         </header>
-        
+
         <div id="message" align="center"> </div>
         <fieldset class="formulaire_intervention">
-        <div id="intervention" > 
+            <div id="intervention" > 
 
-        </div>
-        
-             <div id="formulaire" style="display:none"  >
-                 <hr>
-                 Commentaires  <input type='text' id='commentaires' > <br>
-            Etat de l'intervention :<br>
-            <input type="radio" id="Choice1"
-                   name="contact" value="Realisee" checked="checked">
-            <label for="Choice1">Realisee</label>
+            </div>
 
-            <input type="radio" id="Choice2"
-                   name="contact" value="Probleme">
-            <label for="Choice2">Probleme</label>
-            </br>             </br>
+            <div id="formulaire" style="display:none"  >
+                <hr>
+                Commentaires  <input type='text' id='commentaires' > <br>
+                Etat de l'intervention :<br>
+                <input type="radio" id="Choice1"
+                       name="contact" value="Realisee" checked="checked">
+                <label for="Choice1">Realisée</label>
 
-            <button id="cloturer">Clôturer</button>
-        </div>
+                <input type="radio" id="Choice2"
+                       name="contact" value="Probleme">
+                <label for="Choice2"> Un probleme est survenu</label>
+                </br>             </br>
+
+                <button id="cloturer">Clôturer</button>
+            </div>
         </fieldset>
-       
+
 
 
 
         <script>
 
-            function connexion() {
+            function intervention() {
                 $.ajax({
                     url: './ActionServlet',
                     method: 'POST',
@@ -68,22 +68,38 @@ and open the template in the editor.
 
                     var inter = data.intervention;
                     console.log(inter);
-                    $('#nom').html(inter[0].Nom_Employe + " " + inter[0].Prenom_Employe);
+                    $('#nom').html(inter[0].Prenom_Employe + " " + inter[0].Nom_Employe);
 
                     if (inter[0].PresenceIntervention === "NON") {
                         $('#message').html("<h1><b>Pas d'intervention en cours</b></h1>");
 
                     } else {
+                        var label;
+                        if (inter[0].Complement === undefined) {
+                            inter[0].Complement = "Pas indiqué";
+
+                        }
+                        if (inter[0].Type === "Incident") {
+                            label = "Type de l'intervention : Incident";
+
+                        }
+                        if (inter[0].Type === "Animal") {
+                            label = "Espece de l'animal : " + inter[0].Espece;
+
+                        }
+                        if (inter[0].Type === "Livraison") {
+                            label = "Type de livraison : " + inter[0].TypeLivraison + "<br>" + "Entreprise de livraison :" + inter[0].Entreprise;
+
+                        }
                         $('#message').html("<h1><b>Votre intervention en cours</b></h1>");
                         $('#intervention').html(
-                                
-                                inter[0].Type + " " + inter[0].Date_Debut + " En cours </br>" +
+                                "<img alt='carte' src='images/interrogation.PNG' width='20'>" + inter[0].Type + " " + "<img alt='carte' src='images/calendrier.PNG' width='20'>" + inter[0].Date_Debut + "<img alt='carte' src='images/load.PNG' width='20'>" + " En cours </br>" +
                                 "Description :" + inter[0].Description + "</br>" +
                                 "Client : " + inter[0].Prenom_Client + " " + inter[0].Nom_Client + "</br>" +
-                                "Adresse : " + inter[0].Rue + " " + inter[0].CodePostal + " " + inter[0].Ville + "</br>" +
+                                "Adresse : " + inter[0].Rue + " " + inter[0].CodePostal + " " + inter[0].Ville + "<a href='today.html'> <img alt='carte' src='images/carte.PNG' width='50'> </a>" + "</br>" +
                                 "Complement d'Adresse : " + inter[0].Complement + "</br>" +
-                                "Espece de l'animal : " + inter[0].Type 
-                              
+                                label
+
                                 );
                         $('#formulaire').attr('style', 'display:block;');
 
@@ -92,12 +108,12 @@ and open the template in the editor.
             }
             function cloturer() {
                 var champcommentaires = $('#commentaires').val();
-                var champstatus=$('input[name=contact]:checked').val();
-  
+                var champstatus = $('input[name=contact]:checked').val();
+
                 console.log(champcommentaires);
-            
+
                 $.ajax({
-                     
+
                     url: './ActionServlet',
                     method: 'POST',
                     data: {
@@ -108,24 +124,21 @@ and open the template in the editor.
                     dataType: 'json'
 
                 }).done(function (data) {
-                        if(data==="true"){
-                             $('#message').html("<h1><b>Votre intervention a éte cloturée</b></h1>");
-                        }
-                        else{
-                            $('#message').html("<h1><b>Il y'a eu un problème lors de l'intervention</b></h1>");
-                        }
-                        window.location.reload();
-                  
+                    if (data === "true") {
+                        $('#message').html("<h1><b>Votre intervention a éte cloturée</b></h1>");
+                    } else {
+                        $('#message').html("<h1><b>Il y'a eu un problème lors de l'intervention</b></h1>");
+                    }
+                    window.location.reload();
 
-                    
+
+
                 });
             }
             $(document).ready(function () {
-                connexion();
+                intervention();
                 $('#cloturer').on('click', function () {
-                    // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Cloturêr"');
-                    // appel de la fonction connexion
                     cloturer();
                 });
             });

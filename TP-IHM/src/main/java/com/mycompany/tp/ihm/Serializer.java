@@ -21,6 +21,8 @@ import modele.Adresse;
 import modele.Client;
 import modele.Employe;
 import modele.Intervention;
+import modele.InterventionAnimal;
+import modele.InterventionLivraison;
 import modele.Personne;
 
 /**
@@ -90,7 +92,7 @@ public class Serializer {
                 jsonListe.add(jsonIntervention);
             } 
             else {
-                
+            
                 
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Adresse A = inter.getClient().getAdresse();
@@ -100,6 +102,16 @@ public class Serializer {
                     Date_Debut = "";
                 } else {
                     Date_Debut = formatter.format(inter.getDebut());
+                }
+               
+                 if(inter.getTypeLabel()=="Animal"){
+                    InterventionAnimal in=(InterventionAnimal) inter;
+                     jsonIntervention.addProperty("Espece", in.getTypeAnimal());
+                }
+                 if(inter.getTypeLabel()=="Livraison"){
+                    InterventionLivraison in=(InterventionLivraison) inter;
+                     jsonIntervention.addProperty("Entreprise", in.getEntrepriseLivraison());
+                      jsonIntervention.addProperty("TypeLivraison", in.getTypeLivraison());
                 }
                 
                 jsonIntervention.addProperty("Description", inter.getDescription());

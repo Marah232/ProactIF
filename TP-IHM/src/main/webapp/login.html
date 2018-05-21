@@ -12,12 +12,7 @@
                 <img alt="logo" src="images/logo.PNG" >
 
             </center>
-
-
-
         </header>
-
-
         <fieldset class="formulaire_connexion">
             <legend align="left"> Connexion: </legend>
             <div align="center">
@@ -26,11 +21,8 @@
                 <button id="bouton-connexion">Se connecter</button>
                 <div id="message"></div>
             </div>
-
         </fieldset>
-
         <br>
-
         <fieldset class="formulaire_connexion">
             <div align="center">
                 Pas encore de compte client ? <br>
@@ -38,15 +30,6 @@
             </div>
 
         </fieldset>
-
-
-
-
-        <!-- <h1>Formulaire de login</h1>
-         Identifiant : <input type="text" id="champ-login" name="login" placeholder="votre identifiant" /><br>
-         Mot de passe : <input type="password" id="champ-password" name="password" /><br>
-         <button id="bouton-connexion">Se connecter</button>   
-         <div id="message"></div>-->
 
         <script>
 
@@ -69,13 +52,8 @@
 
 
                 }).done(function (data) {
-                    // ici votre code...
-                    // 
 
-                    //var personne = data.personne[0];
                     var bool = data.valueOf();
-
-
                     if (bool != "null") {
                         if (bool == "employe")
                             window.location = "employe.html";
@@ -85,10 +63,6 @@
 
                         $('#message').html('Mot de passe ou Email incorrect');
                     }
-                    // si connexion ok, aller sur la page suivante :
-                    //window.location = "maPageSuivante.html";
-                    // si connexion pas ok afficher un texte dans la div message :
-                    //$('#message').html('Echec de la connexion');*/
                 });
             }
             function extractUrlParams() {
@@ -101,19 +75,18 @@
                 return f;
             }
             $(document).ready(function () {
-                // ajout d'un "handler" sur le clic du bouton de connexion
-                
-               var f=extractUrlParams();
-               
-                if(f["Register"]==="success"){
-                     $('#message').html('<div style="color:green;" align="center" >Votre inscription a reussie , veuillez vous connecter </div>');
-                };
+
+
+                var f = extractUrlParams();
+
+                if (f["Register"] === "success") {
+                    $('#message').html('<div style="color:green;" align="center" >Votre inscription a reussie , veuillez vous connecter </div>');
+                }
+                ;
 
                 $('#bouton-connexion').on('click', function () {
-                     $('#message').html('');
-                    // affichage pour debugage dans la console javascript du navigateur
+                    $('#message').html('');
                     console.log('Click sur le bouton "Se Connecter"');
-                    // appel de la fonction connexion
                     connexion();
                 });
             });
