@@ -10,23 +10,22 @@
         <header>
             <img alt="logo" src="images/logo.PNG" width="200"> 
             <br>
-                Bonjour <div id="nom"></div> <br>
-                Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
-                <div align="right">
-                    <ul id="menu_horizontal">
-                        <li><a href="client.html">Accueil</a></li>
-                        <li><a href="new.html">Nouvelle demande</a></li>
-                        <li><a href="histo-client.html">Historique des demandes</a></li>
+            Bonjour <div id="nom"></div> <br>
+            Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
+            <div align="right">
+                <ul id="menu_horizontal">
+                    <li><a href="client.html">Accueil</a></li>
+                    <li><a href="new.html">Nouvelle demande</a></li>
+                    <li><a href="histo-client.html">Historique des demandes</a></li>
 
-                    </ul>
-                </div>
-         </header>
-         <section>
+                </ul>
+            </div>
+        </header>
+        <section>
             <h1>Historique de vos demandes</h1>
-            <div id="demandes"></div>
+            <div id="demandesRec"></div>
         </section>
-        <script>
-function getNom() {
+        <script>function getNom() {
                 $.ajax({
                     url: './ActionServlet',
                     method: 'POST',
@@ -36,14 +35,14 @@ function getNom() {
                     dataType: 'json'
 
                 }).always(function (data) {
-                    
-                    var personne=data.noms; 
-                   // var interventions=data.interventions[0];
-                   // console.log(interventions.valueOf());
-                    $('#nom').html(personne[1]+" "+ personne[0]);
+
+                    var personne = data.noms;
+                    // var interventions=data.interventions[0];
+                    // console.log(interventions.valueOf());
+                    $('#nom').html(personne[1] + " " + personne[0]);
                 });
             }
-            
+
             function interRecentes() {
                 $.ajax({
                     url: './ActionServlet',
@@ -53,25 +52,68 @@ function getNom() {
                     },
                     dataType: 'json'
 
-                }).always(function (data) {
-                    
-                   // var interventions=data.interventions[0];
-                   // console.log(interventions.valueOf());
-                    $('#demandes').html(data);
+                }).done(function (data) {
+
+                    var inter = data.interventions;
+                    // console.log(interventions.valueOf());
+                    var i;
+                    for (i = inter.length - 1; i >= 0; i--)
+                    {
+                        var label;
+                        if (inter[i].Commentaire === undefined) {
+                            inter[i].Commentaire = "";
+
+                        }
+                        if (inter[i].Type === "Incident") {
+                            label = "Type de l'intervention : Incident";
+
+                        }
+                        if (inter[i].Type === "Animal") {
+                            label = "Espece de l'animal : " + inter[i].Espece;
+
+                        }
+                        if (inter[i].Type === "Livraison") {
+                            label = "Type de livraison : " + inter[i].TypeLivraison + "<br>" + "Entreprise de livraison : " + inter[i].EntrepriseLivraison;
+
+                        }
+
+                        var statut;
+
+                        if (inter[i].Status === "R") {
+                            statut = "<img alt='carte' src='images/terminee.png' width='20'> Terminée";
+                        } else if (inter[i].Status === "P") {
+                            statut = "<img alt='carte' src='images/probleme.png' width='20'> Problème";
+                        } else {
+                            statut = "<img alt='carte' src='images/load.PNG' width='20'> En cours";
+                        }
+
+                        $('#demandesRec').append(
+                                "<img alt='carte' src='images/interrogation.PNG' width='20'>" + inter[i].Type + " " + "<img alt='carte' src='images/calendrier.PNG' width='20'>" + inter[i].Date_Debut + statut + "</br>" +
+                                "Description :" + inter[i].Description + "</br>" +
+                                "Pris en charge par : " + inter[i].Nom_Employe + " " + inter[i].Prenom_Employe + "<br/>" +
+                                '<div id="tada'+i+'" style="display: none">' +
+                                "Terminée le : " + inter[i].Date_Fin + "</br>" +
+                                "Commentaire : " + inter[i].Commentaire + "</br>" + label + 
+                                '</div><input class="plus_moins" id="plus'+i+'" type="button" value="Plus ↓" onclick=\' $("#tada'+i+'").toggle(); $("#moins'+i+'").toggle(); $("#plus'+i+'").toggle(); \' style="display:block">' +
+                                '</div><input class="plus_moins" id="moins'+i+'" type="button" value="Moins ↑" onclick=\' $("#tada'+i+'").toggle(); $("#plus'+i+'").toggle(); $("#moins'+i+'").toggle();\' style="display:none">' +
+                                "<hr/>"
+                                );
+
+                    }
                 });
             }
             $(document).ready(function () {
-                getNom();   
+                getNom();
                 interRecentes();
             });
         </script>
-    <footer>
-        <ul id="menu_horizontal">
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="forum.html">A propos de Proact'IF</a></li>
-            <li><a href="contact.html">Mentions légales</a></li>
-            <li><a href="contact.html">CGV</a></li>
-        </ul>
-    </footer>
-</body>
+        <footer>
+            <ul id="menu_horizontal">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="forum.html">A propos de Proact'IF</a></li>
+                <li><a href="contact.html">Mentions légales</a></li>
+                <li><a href="contact.html">CGV</a></li>
+            </ul>
+        </footer>
+    </body>
 </html>

@@ -109,8 +109,9 @@ public class ActionServlet extends HttpServlet {
                 }
                 case "histoClient" :{
                     request.setAttribute("sessionUser", sessionUser);
+                    request.setAttribute("Interventions", new ServiceConciergerie().obtenirInterventionsParClient((Client)sessionUser));
                     Serializer S=new Serializer();
-                    //S.serializerInterventions(request,response);
+                    S.serializerInterventions(request,response);
                     break;
                 }
                 case "today" :{

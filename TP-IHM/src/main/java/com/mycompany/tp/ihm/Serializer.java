@@ -188,11 +188,21 @@ public class Serializer {
                 }
                 //
 
+                if (i instanceof InterventionLivraison) {
+                    jsonIntervention.addProperty("TypeLivraison", ((InterventionLivraison)i).getTypeLivraison());
+                    jsonIntervention.addProperty("EntrepriseLivraison", ((InterventionLivraison)i).getEntrepriseLivraison());
+                }
+                
+                if (i instanceof InterventionAnimal) {
+                    jsonIntervention.addProperty("Espece", ((InterventionAnimal)i).getTypeAnimal());
+                }
+                
                 jsonIntervention.addProperty("Description", i.getDescription());
                 jsonIntervention.addProperty("Nom_Client", i.getClient().getNom());
                 jsonIntervention.addProperty("Prenom_Client", i.getClient().getPrenom());
                 jsonIntervention.addProperty("Nom_Employe", i.getEmploye().getNom());
                 jsonIntervention.addProperty("Prenom_Employe", i.getEmploye().getPrenom());
+                jsonIntervention.addProperty("Commentaire", i.getCommentaire());
                 jsonIntervention.addProperty("Status", i.getStatus());
                 jsonIntervention.addProperty("Type", i.getTypeLabel());
                 jsonIntervention.addProperty("Date_Debut", Date_Debut);

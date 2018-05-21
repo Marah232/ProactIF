@@ -57,20 +57,39 @@ public class InterventionAction implements Action {
                     ServiceConciergerie sc = new ServiceConciergerie();
                     sc.demanderIntervention((Client) request.getAttribute("sessionUser"), inter);
                 } catch (ServiceException e) {
-                    errors.add("PROBLEME " + e.getMessage());
+                    errors.add(e.getMessage());
                 }
                 request.setAttribute("errors", errors);
                 break;
             }
             case "incident": {
-                inter = new InterventionIncident();
-                inter.setClient((Client) request.getAttribute("sessionUser"));
-                inter = new InterventionIncident();
+                inter = new InterventionIncident(description);
+                try {
+                    ServiceConciergerie sc = new ServiceConciergerie();
+                    sc.demanderIntervention((Client) request.getAttribute("sessionUser"), inter);
+                } catch (ServiceException e) {
+                    errors.add(e.getMessage());
+                }
+                request.setAttribute("errors", errors);
+                
                 break;
             }
             case "livraison": {
-                inter = new InterventionLivraison();
-                inter.setClient((Client) request.getAttribute("sessionUser"));
+                if (livraison != null && !livraison.equals("") && type != null && !type.equals("")) {
+                    inter = new InterventionLivraison(description, type, livraison);
+                } else {
+                    errors.add("Merci de renseigner le type et l'entreprise de livraison.");
+                    request.setAttribute("errors", errors);
+                    return;
+                }
+               try {
+                    ServiceConciergerie sc = new ServiceConciergerie();
+                    sc.demanderIntervention((Client) request.getAttribute("sessionUser"), inter);
+                } catch (ServiceException e) {
+                    errors.add(e.getMessage());
+                }
+                request.setAttribute("errors", errors);
+                
                 break;
             }
             default:
