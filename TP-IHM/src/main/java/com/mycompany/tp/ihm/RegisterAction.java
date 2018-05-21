@@ -44,6 +44,7 @@ public class RegisterAction implements Action {
         String RueEtNumero= request.getParameter("RueEtNumero");
     
         String ComplementAdresse= request.getParameter("ComplementAdresse");
+     
         String MotPasse = request.getParameter("MotPasse");
         
         Adresse A=new Adresse(Ville,CodePostal,RueEtNumero,ComplementAdresse);
@@ -52,10 +53,12 @@ public class RegisterAction implements Action {
         
          try {
              service.inscrireClient(c);
+             request.setAttribute("client", c);
          } catch (ServiceException ex) {
              Logger.getLogger(RegisterAction.class.getName()).log(Level.SEVERE, null, ex);
+             request.setAttribute("client", null);
          }
-        request.setAttribute("client", c);
+        
         /*System.out.println(c.getNom());
         System.out.println(c.getPrenom());
         System.out.println(c.getCivilite());
