@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Proact'IF - Accueil employé</title>
@@ -15,25 +9,121 @@ and open the template in the editor.
     <body>
         <header>
             <img alt="logo" src="images/logo.PNG" width="200"> 
+            <br>
+                Bonjour <div id="nom"></div> <br>
+                Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
+                <div align="right">
+                    <ul id="menu_horizontal">
+                        <li><a href="client.html">Accueil</a></li>
+                        <li><a href="new.html">Nouvelle demande</a></li>
+                        <li><a href="histo-client.html">Historique des demandes</a></li>
 
-            Bonjour <div id="nom"></div> <br>
-            Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
-            <div align="right">
-                <ul id="menu_horizontal">
-                    <li><a href="employe.html">Accueil</a></li>
-                    <li><a href="today.html">Intervention du jour</a></li>
+                    </ul>
+                </div>
+         </header>
+        <section>
+            <div id="form">
+                <form>
+                    <fieldset>
+                        <legend>Demande d'intervention</legend>
+                        <label for="intervention">Type d'intervention :</label>
+                        <select name="intervention" id="intervention">
+                            <option value="animal">Animal</option>
+                            <option value="incident">Incident</option>
+                            <option value="livraison">Livraison</option>
+                        </select> <br/>
+                         <label for="description">Description :</label>
+                         <input id="description" type="text" name="description" class="grandeBoite" required=""><br/>
 
-                </ul>
+                         <label for="espece">Espèce de l'animal :</label>
+                         <input id="espece" type="text" name="espece" class="petiteBoite"><br/>
+
+                         <label for="type">Type de livraison :</label>
+                         <input id="type" type="text" name="type" class="petiteBoite"><br/>
+
+                         <label for="livraison">Entreprise de livraison :</label>
+                         <input id="livraison" type="text" name="livraison" class="petiteBoite"><br/>
+                         <input type="submit" value="Valider" id="boutonValider">
+                    </fieldset>
+                </form>
+                <div id="message"></div>
             </div>
-        </header>
-       
-        <footer>
-            <ul id="menu_horizontal">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="forum.html">A propos de Proact'IF</a></li>
-                <li><a href="contact.html">Mentions légales</a></li>
-                <li><a href="contact.html">CGV</a></li>
-            </ul>
-        </footer>
-    </body>
+        </section>
+        <script>
+
+            function getNom() {
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'client',
+                    },
+                    dataType: 'json'
+
+                }).always(function (data) {
+                    
+                    var personne=data.noms; 
+                   // var interventions=data.interventions[0];
+                   // console.log(interventions.valueOf());
+                    $('#nom').html(personne[1]+" "+ personne[0]);
+                });
+            }
+            
+            function createNew() {
+                var intervention = $('#intervention').val();
+                var description = $('#description').val();
+                var espece = $('#espece').val();
+                var type = $('#type').val();
+                var livraison = $('#livraison').val();
+                $('#message').html('Connexion en cours...');
+                
+                var tmp = {
+                        todo: 'new',
+                        intervention: intervention,
+                        description: description,
+                        espece: espece,
+                        type: type,
+                        livraison: livraison
+                    };
+                console.log(tmp);
+
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'new',
+                        intervention: intervention,
+                        description: description,
+                        espece: espece,
+                        type: type,
+                        livraison: livraison
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    $('#message').html(data.errors);
+
+                });
+            }
+
+            $(document).ready(function () {
+                getNom();   
+                // ajout d'un "handler" sur le clic du bouton de connexion
+                $('#boutonValider').on('click', function (event) {
+                    event.preventDefault();
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Se Connecter"');
+                    // appel de la fonction connexion
+                    createNew();
+                });
+            });
+        </script>
+    <footer>
+        <ul id="menu_horizontal">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="forum.html">A propos de Proact'IF</a></li>
+            <li><a href="contact.html">Mentions légales</a></li>
+            <li><a href="contact.html">CGV</a></li>
+        </ul>
+    </footer>
+</body>
 </html>

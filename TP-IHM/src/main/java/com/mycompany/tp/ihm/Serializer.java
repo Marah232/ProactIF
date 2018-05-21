@@ -152,18 +152,7 @@ public class Serializer {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
             List<Intervention> interventions = (List<Intervention>) request.getAttribute("Interventions");
-            //List<String> test=new ArrayList<String>();
-            /*test.add("ça marche");
-            System.out.println(interventions.get(0).getDescription());
-             
-                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            System.out.println("ICI");
-            JsonArray jsonListe = (JsonArray) gson.toJsonTree(interventions);
-            
-            JsonObject container= new JsonObject();
-            container.add("personnes",jsonListe);
-             System.out.println("HJGDEHGFUHZERJFHJZGFHKJ");
-            out.println(gson.toJson(container));*/
+           
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonArray jsonListe = new JsonArray();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -212,4 +201,16 @@ public class Serializer {
                 out.println(gson.toJson(request.getAttribute("Intervention_cloturee")));
             }
      }
+     public void serializerListString(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("application/json");
+        try (PrintWriter out = response.getWriter()) {
+            List<String> errors = (List<String>) request.getAttribute("errors");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonArray jsonListe = (JsonArray) gson.toJsonTree(errors);
+            JsonObject container = new JsonObject();
+            container.add("errors", jsonListe);
+            out.println(gson.toJson(container));
+        }
+    }
 }

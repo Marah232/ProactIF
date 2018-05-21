@@ -96,13 +96,22 @@ public class ActionServlet extends HttpServlet {
                      Serializer S=new Serializer();
                      
                       S.serializerCloturerIntervention(request,response);
+                      break;
                      
                 }
                 case "new" :{
-                   
+                     request.setAttribute("sessionUser", sessionUser);
+                    InterventionAction ia = new InterventionAction();
+                    ia.excecute(request);
+                    Serializer S = new Serializer();
+                    S.serializerListString(request, response);
+                   break;
                 }
                 case "histoClient" :{
-
+                    request.setAttribute("sessionUser", sessionUser);
+                    Serializer S=new Serializer();
+                    //S.serializerInterventions(request,response);
+                    break;
                 }
                 case "today" :{
                     if (sessionUser instanceof Client)
@@ -114,6 +123,7 @@ public class ActionServlet extends HttpServlet {
                     EA.excecute(request);
                     Serializer S=new Serializer();
                     S.serializerInterventions(request,response);
+                    break;
                 }
                 case "today_Nom" :{
                     if (sessionUser instanceof Client)
@@ -126,18 +136,30 @@ public class ActionServlet extends HttpServlet {
                     request.setAttribute("PrenomEmploye",((Employe)sessionUser).getPrenom() );
                     Serializer S=new Serializer();
                     S.serializerNomEmploye(request,response);
+                    break;
                 }
                 case "client" :{
+                    if (sessionUser instanceof Employe)
+                        response.sendRedirect("/login.html");
+
+                    request.setAttribute("NomEmploye",sessionUser.getNom());
+                    request.setAttribute("PrenomEmploye",sessionUser.getPrenom());
+                    Serializer S=new Serializer();
+                    
+                    S.serializerNomEmploye(request,response);
+                    break;
 
                 }
                 case "employe" :{
                     if (sessionUser instanceof Client)
+                       
                         response.sendRedirect("/login.html");
                     request.setAttribute("Intervention",((Employe)sessionUser).getInterventionEnCours());
                     request.setAttribute("Nom",((Employe)sessionUser).getNom());
                     request.setAttribute("Prenom",((Employe)sessionUser).getPrenom());
                     Serializer S=new Serializer();
                     S.serializerInterventionEnCoursEmploye(request,response);
+                    break;
                     
                 }
                 

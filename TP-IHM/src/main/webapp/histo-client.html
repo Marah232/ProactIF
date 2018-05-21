@@ -1,16 +1,77 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Proact'IF - Accueil employé</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link type="text/css" rel="stylesheet" href="fichier_CSS.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
     <body>
-        <div>TODO write content</div>
-    </body>
+        <header>
+            <img alt="logo" src="images/logo.PNG" width="200"> 
+            <br>
+                Bonjour <div id="nom"></div> <br>
+                Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
+                <div align="right">
+                    <ul id="menu_horizontal">
+                        <li><a href="client.html">Accueil</a></li>
+                        <li><a href="new.html">Nouvelle demande</a></li>
+                        <li><a href="histo-client.html">Historique des demandes</a></li>
+
+                    </ul>
+                </div>
+         </header>
+         <section>
+            <h1>Historique de vos demandes</h1>
+            <div id="demandes"></div>
+        </section>
+        <script>
+function getNom() {
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'client',
+                    },
+                    dataType: 'json'
+
+                }).always(function (data) {
+                    
+                    var personne=data.noms; 
+                   // var interventions=data.interventions[0];
+                   // console.log(interventions.valueOf());
+                    $('#nom').html(personne[1]+" "+ personne[0]);
+                });
+            }
+            
+            function interRecentes() {
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'histoClient',
+                    },
+                    dataType: 'json'
+
+                }).always(function (data) {
+                    
+                   // var interventions=data.interventions[0];
+                   // console.log(interventions.valueOf());
+                    $('#demandes').html(data);
+                });
+            }
+            $(document).ready(function () {
+                getNom();   
+                interRecentes();
+            });
+        </script>
+    <footer>
+        <ul id="menu_horizontal">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="forum.html">A propos de Proact'IF</a></li>
+            <li><a href="contact.html">Mentions légales</a></li>
+            <li><a href="contact.html">CGV</a></li>
+        </ul>
+    </footer>
+</body>
 </html>
