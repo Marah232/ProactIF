@@ -17,9 +17,19 @@
 
         <fieldset class="formulaire_inscription">
             <legend align="left"> Inscription: </legend>
+            <div id="message">
 
-            <label for="Civilite"> Civilité </label><input type="text" id="Civilite" /><br>
-            <label for="Nom">Nom   </label>         <input type="text" id="Nom"  /><br>
+            </div>
+            <input type="radio" id="Choice1"
+                   name="civilite" value="Monsieur" checked="checked">
+            <label for="Choice1">Monsieur</label>
+
+            <input type="radio" id="Choice2"
+                   name="civilite" value="Madame">
+            <label for="Choice2">Madame</label>
+
+            <!-- <label for="Civilite"> Civilité </label><input type="text" id="Civilite" /><br>-->
+            <label for="Nom" >Nom   </label>         <input type="text" id="Nom"    /><br>
             <label for="Prenom">Prenom   </label>         <input type="text" id="Prenom"  /><br>
             <label for="Telephone">    Telephone </label>  <input type="text" id="Telephone" /><br>
             <label for="adresseMail">    Adresse mail </label>  <input type="text" id="adresseMail" /><br>
@@ -30,8 +40,16 @@
             <label for=ComplementAdresse>Complement d'adresse</label> <input type="text" id="ComplementAdresse" /><br>
             <label for=MotPasse> Mot de passe</label> <input type="password" id="MotPasse"  /><br>
             <label for="ConfirmationMotdePasse"> Confirmation du mot de passe</label> <input type="password" id="ConfirmationMotdePasse" /><br>
+            <br>
+            <label for="conditions">J'ai lu et j'accepte les conditions Générales de vente</label>  <input type="radio" id="conditions" name="conditions" value="conditions">
+            <br>
+
+            <br><br>
+            <label for="robot">Je ne suis pas un robot</label>
+            <input type="radio" id="robot" name="robot" value="robot" >
 
 
+            <br><br>
 
             <center><button  id="bouton-inscription"  >valider</button> </center>
 
@@ -39,21 +57,104 @@
         </fieldset>
 
         <script>
+            function checkparam(Champnom, ChampPrenom, ChampTelephone, ChampadresseMail, ChampDatedeNaissance, ChampVille, ChampCodePostal, ChampRueEtNumero, ChampComplementAdresse, ChampMotPasse, ChampConfirmationMotdePasse, ChampConditions, ChampRobot) {
 
-            function register() {
-                var Champcivilite = $('#Civilite').val();
-                var Champnom = $('#Nom').val();
-                var ChampPrenom = $('#Prenom').val();
-                var ChampTelephone = $('#Telephone').val();
-                var ChampadresseMail = $('#adresseMail').val();
-                var ChampDatedeNaissance = $('#DatedeNaissance').val();
-                var ChampVille = $('#Ville').val();
-                var ChampCodePostal = $('#CodePostal').val();
-                var ChampRueEtNumero = $('#RueEtNumero').val();
-                var ChampComplementAdresse = $('#adresseMail').val();
-                var ChampMotPasse = $('#MotPasse').val();
-                var ChampConfirmationMotdePasse = $('#ConfirmationMotdePasse').val();
-                $('#message').html('Connexion en cours...');
+                var validate = true;
+                var elem;
+                if (Champnom === "") {
+                    elem = document.getElementById('Nom');
+                    elem.setAttribute("style", " border-color:red");
+                    validate = false;
+                }
+                if (ChampPrenom === "") {
+                    elem = document.getElementById('Prenom');
+                    elem.setAttribute("style", " border-color:red");
+                    validate = false;
+                }
+                if (ChampTelephone === "") {
+                    elem = document.getElementById('Telephone');
+                    elem.setAttribute("style", " border-color:red");
+                    validate = false;
+                }
+                if (ChampadresseMail === "") {
+                    elem = document.getElementById('adresseMail');
+                    elem.setAttribute("style", " border-color:red");
+                    validate = false;
+                }
+                if (ChampDatedeNaissance === "") {
+                    elem = document.getElementById('DatedeNaissance');
+                    elem.setAttribute("style", " border-color:red");
+                    validate = false;
+                }
+                if (ChampVille === "") {
+                    elem = document.getElementById('Ville');
+                    elem.setAttribute("style", " border-color:red");
+                    validate = false;
+                }
+                if (ChampCodePostal === "") {
+                    elem = document.getElementById('CodePostal');
+                    elem.setAttribute("style", " border-color:red");
+                    validate = false;
+                }
+                if (ChampVille === "") {
+                    elem = document.getElementById('Ville');
+                    elem.setAttribute("style", " border-color:red");
+                    validate = false;
+                }
+                if (ChampRueEtNumero === "") {
+                    elem = document.getElementById('RueEtNumero');
+                    elem.setAttribute("style", " border-color:red");
+                    validate = false;
+                }
+
+
+                if (ChampMotPasse === "") {
+                    elem = document.getElementById('MotPasse');
+                    elem.setAttribute("style", " border-color:red");
+                    validate = false;
+                }
+                if (ChampConfirmationMotdePasse === "") {
+                    elem = document.getElementById('ConfirmationMotdePasse');
+                    elem.setAttribute("style", " border-color:red");
+                    validate = false;
+                }
+                if (ChampMotPasse !== ChampConfirmationMotdePasse)
+                {
+                    elem = document.getElementById('MotPasse');
+                    elem.setAttribute("style", " border-color:red");
+                    elem = document.getElementById('ConfirmationMotdePasse');
+                    elem.setAttribute("style", " border-color:red");
+                    $('#message').html('<div style="color:red;" align="center" >Veuillez saisir le même mot de passe</div>');
+                    validate = false;
+                }
+
+
+                if (ChampConditions !== "conditions") {
+
+                    elem = document.getElementById('conditions');
+                    elem.setAttribute("style", " border-color:red");
+                    $('#message').html('<div style="color:red;" align="center" >Veuillez accepter les conditions Générales de vente</div>');
+                    validate = false;
+
+                }
+
+                if (ChampRobot !== "robot") {
+
+                    elem = document.getElementById('robot');
+                    elem.setAttribute("style", " border-color:red");
+                    $('#message').html('<div style="color:red;" align="center" >Veuillez cocher la case je suis pas un robot</div>');
+                    validate = false;
+
+                }
+
+                return validate;
+
+
+            }
+          
+            function register(Champcivilite, Champnom, ChampPrenom, ChampTelephone, ChampadresseMail, ChampDatedeNaissance, ChampVille, ChampCodePostal, ChampRueEtNumero, ChampComplementAdresse, ChampMotPasse) {
+                console.log(ChampRueEtNumero);
+                $('#message').html('Inscription en cours...');
                 $.ajax({
                     url: './ActionServlet',
                     method: 'POST',
@@ -78,13 +179,15 @@
                 }).done(function (data) {
                     var bool = data.valueOf();
 
-
+                     var inscription;
                     if (bool) {
+                         inscription ="success";
+                        document.location.href = 'login.html?Register=' +inscription ;
                        
-                            window.location = "login.html";
 
                     } else {
-                        Console.log("L'inscription n'est pas réussie ,veuillez recommencer");
+                         inscription ="failed";
+                        document.location.href = 'login.html?Register=' +inscription ;
                         window.location = "login.html";
                     }
                     // ici votre code...
@@ -104,10 +207,77 @@
                 // ajout d'un "handler" sur le clic du bouton de connexion
 
                 $('#bouton-inscription').on('click', function () {
-
+                    $('#message').html('');
+                    var Element;
+                    var Champnom = $('#Nom').val();
+                    Element = document.getElementById('Nom');
+                    Element.setAttribute("style", "");
+                    
+                    var ChampPrenom = $('#Prenom').val();
+                    Element = document.getElementById('Prenom');
+                    Element.setAttribute("style", "");
+                    
+                    var ChampTelephone = $('#Telephone').val();
+                    Element = document.getElementById('Telephone');
+                    Element.setAttribute("style", "");
+                    
+                    var ChampadresseMail = $('#adresseMail').val();
+                    Element = document.getElementById('adresseMail');
+                    Element.setAttribute("style", "");
+                    
+                    var ChampDatedeNaissance = $('#DatedeNaissance').val();
+                    Element = document.getElementById('DatedeNaissance');
+                    Element.setAttribute("style", "");
+                    
+                    var ChampVille = $('#Ville').val();
+                    Element = document.getElementById('Ville');
+                    Element.setAttribute("style", "");
+                    
+                    var ChampCodePostal = $('#CodePostal').val();
+                    Element = document.getElementById('CodePostal');
+                    Element.setAttribute("style", "");
+                    
+                    var ChampRueEtNumero = $('#RueEtNumero').val();
+                    Element = document.getElementById('RueEtNumero');
+                    Element.setAttribute("style", "");
+                    
+                    var ChampComplementAdresse = $('#ComplementAdressel').val();
+                    Element = document.getElementById('ComplementAdresse');
+                    Element.setAttribute("style", "");
+                    
+                    var ChampMotPasse = $('#MotPasse').val();
+                    Element = document.getElementById('MotPasse');
+                    Element.setAttribute("style", "");
+                    
+                    var ChampConfirmationMotdePasse = $('#ConfirmationMotdePasse').val();
+                    Element = document.getElementById('ConfirmationMotdePasse');
+                    Element.setAttribute("style", "");
+                    
+                    var ChampConditions = $('input[name=conditions]:checked').val();
+                    
+                    var ChampRobot = $('input[name=robot]:checked').val();
+                    
+                   
+                    validate = checkparam(Champnom, ChampPrenom, ChampTelephone, ChampadresseMail, ChampDatedeNaissance, ChampVille, ChampCodePostal, ChampRueEtNumero, ChampComplementAdresse, ChampMotPasse, ChampConfirmationMotdePasse, ChampConditions, ChampRobot);
                     // affichage pour debugage dans la console javascript du navigateur
-                    console.log('Click sur le bouton "Se Connecter"');
-                    register();
+                 
+        if (validate) {
+                        var Champcivilite = $('input[name=civilite]:checked').val();
+                        if (Champcivilite === 'Monsieur') {
+                            Champcivilite = 'H';
+                        } else {
+                            Champcivilite = 'F';
+                        }
+                        
+                        register(Champcivilite, Champnom, ChampPrenom, ChampTelephone, ChampadresseMail, ChampDatedeNaissance, ChampVille, ChampCodePostal, ChampRueEtNumero, ChampComplementAdresse, ChampMotPasse);
+                    }
+
+
+
+
+
+
+                    // register();
                     // appel de la fonction connexion
 
                 });

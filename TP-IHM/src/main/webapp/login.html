@@ -17,20 +17,20 @@
 
         </header>
 
-       
+
         <fieldset class="formulaire_connexion">
             <legend align="left"> Connexion: </legend>
             <div align="center">
-                 <input type="text" id="champ-login" name="login" placeholder="mail" /><br>
-                 <input type="password" id="champ-password" name="password" placeholder="mot de passe" /><br>
+                <input type="text" id="champ-login" name="login" placeholder="mail" /><br>
+                <input type="password" id="champ-password" name="password" placeholder="mot de passe" /><br>
                 <button id="bouton-connexion">Se connecter</button>
                 <div id="message"></div>
             </div>
 
         </fieldset>
-        
+
         <br>
-        
+
         <fieldset class="formulaire_connexion">
             <div align="center">
                 Pas encore de compte client ? <br>
@@ -73,17 +73,16 @@
                     // 
 
                     //var personne = data.personne[0];
-                    var bool=data.valueOf();
-                    
-                    
-                    if (bool!="null") {
-                      if(bool=="employe")
-                          
-                        window.location = "employe.html";
-                      else
-                        window.location = "client.html";
+                    var bool = data.valueOf();
+
+
+                    if (bool != "null") {
+                        if (bool == "employe")
+                            window.location = "employe.html";
+                        else
+                            window.location = "client.html";
                     } else {
-                        
+
                         $('#message').html('Mot de passe ou Email incorrect');
                     }
                     // si connexion ok, aller sur la page suivante :
@@ -92,10 +91,26 @@
                     //$('#message').html('Echec de la connexion');*/
                 });
             }
-
+            function extractUrlParams() {
+                var t = location.search.substring(1).split('&');
+                var f = [];
+                for (var i = 0; i < t.length; i++) {
+                    var x = t[ i ].split('=');
+                    f[x[0]] = x[1];
+                }
+                return f;
+            }
             $(document).ready(function () {
                 // ajout d'un "handler" sur le clic du bouton de connexion
+                
+               var f=extractUrlParams();
+               
+                if(f["Register"]==="success"){
+                     $('#message').html('<div style="color:green;" align="center" >Votre inscription a reussie , veuillez vous connecter </div>');
+                };
+
                 $('#bouton-connexion').on('click', function () {
+                     $('#message').html('');
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Se Connecter"');
                     // appel de la fonction connexion

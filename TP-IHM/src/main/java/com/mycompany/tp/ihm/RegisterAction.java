@@ -41,8 +41,8 @@ public class RegisterAction implements Action {
 
         String Ville = request.getParameter("Ville");
         int CodePostal= Integer.parseInt(request.getParameter("CodePostal"));
-        String RueEtNumero= request.getParameter(" RueEtNumero");
-        
+        String RueEtNumero= request.getParameter("RueEtNumero");
+    
         String ComplementAdresse= request.getParameter("ComplementAdresse");
         String MotPasse = request.getParameter("MotPasse");
         
