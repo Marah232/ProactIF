@@ -82,7 +82,9 @@
                 if (f["Register"] === "success") {
                     $('#message').html('<div style="color:green;" align="center" >Votre inscription a reussie , veuillez vous connecter </div>');
                 }
-                ;
+                if (f["Register"] === "failed"){
+                    $('#message').html('<div style="color:red;" align="center" >Votre inscription au service PROACTIF a malencontreusement échoué... Merci de recommencer ultérieurement. </div>');
+                }
 
                 $('#bouton-connexion').on('click', function () {
                     $('#message').html('');

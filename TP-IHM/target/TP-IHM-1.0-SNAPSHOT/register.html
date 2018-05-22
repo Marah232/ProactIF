@@ -153,7 +153,7 @@
             }
 
             function register(Champcivilite, Champnom, ChampPrenom, ChampTelephone, ChampadresseMail, ChampDatedeNaissance, ChampVille, ChampCodePostal, ChampRueEtNumero, ChampComplementAdresse, ChampMotPasse) {
-                console.log(ChampRueEtNumero);
+                
                 $('#message').html('Inscription en cours...');
                 $.ajax({
                     url: './ActionServlet',
@@ -186,9 +186,10 @@
 
 
                     } else {
+                        
                         inscription = "failed";
                         document.location.href = 'login.html?Register=' + inscription;
-                        window.location = "login.html";
+                       
                     }
                 });
             }
@@ -230,9 +231,8 @@
                     Element = document.getElementById('RueEtNumero');
                     Element.setAttribute("style", "");
 
-                    var ChampComplementAdresse = $('#ComplementAdressel').val();
-                    Element = document.getElementById('ComplementAdresse');
-                    Element.setAttribute("style", "");
+                    var ChampComplementAdresse = $('#ComplementAdresse').val();
+              
 
                     var ChampMotPasse = $('#MotPasse').val();
                     Element = document.getElementById('MotPasse');
