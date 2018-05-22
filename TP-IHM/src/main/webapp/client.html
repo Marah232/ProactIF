@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Proact'IF - Accueil employé</title>
+        <title>Proact'IF - Accueil client</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="fichier_CSS.css">
@@ -8,25 +8,24 @@
     </head>
     <body>
         <header>
-            <img alt="logo" src="images/logo.PNG" width="200"> 
+            <img alt="logo" src="images/logo.PNG" width="200" style="float: left;"> 
             <br>
             Bonjour <div id="nom"></div> <br>
             Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
             <div align="right">
                 <ul id="menu_horizontal">
-                    <li><a href="client.html">Accueil</a></li>
+                    <li class="marked"><a href="client.html">Accueil</a></li>
                     <li><a href="new.html">Nouvelle demande</a></li>
                     <li><a href="histo-client.html">Historique des demandes</a></li>
                 </ul>
+                <br/>
             </div>
         </header>
         <section>
-            <h1>Vos demandes d'interventions récentes</h1>
+            <h1 style='font:Comic Sans MS'>Vos demandes d'intervention récentes</h1>
             <div id="demandesRec"></div>
         </section>
-        <script>
-
-            function getNom() {
+        <script>function getNom() {
                 $.ajax({
                     url: './ActionServlet',
                     method: 'POST',
@@ -58,48 +57,50 @@
                     var inter = data.interventions;
                     // console.log(interventions.valueOf());
                     var i;
-                    for (i = inter.length-1; i >= 0 && i >inter.length-4; i--)
+                    for (i = inter.length - 1; i >= 0 && i>inter.length-4; i--)
                     {
                         var label;
-                        if (inter[i].Complement === undefined) {
-                            inter[i].Complement = "Pas indiqué";
+                        if (inter[i].Commentaire === undefined) {
+                            inter[i].Commentaire = "";
 
                         }
                         if (inter[i].Type === "Incident") {
-                            label = "Type de l'intervention : Incident";
+                            label = "";
 
                         }
                         if (inter[i].Type === "Animal") {
-                            label = "Espece de l'animal : " + inter[i].Espece;
+                            label = "Espece de l'animal : " + inter[i].Espece + "<br/>";
 
                         }
                         if (inter[i].Type === "Livraison") {
-                            label = "Type de livraison : " + inter[i].TypeLivraison + "<br>" + "Entreprise de livraison :" + inter[i].EntrepriseLivraison;
+                            label = "Type de livraison : " + inter[i].TypeLivraison + "<br />" + "Entreprise de livraison : " + inter[i].EntrepriseLivraison + "<br/>";
 
                         }
-                        
+
                         var statut;
-                        
-                        if(inter[i].Status === "R") {
+
+                        if (inter[i].Status === "R") {
                             statut = "<img alt='carte' src='images/terminee.png' width='20'> Terminée";
-                        }
-                        else if(inter[i].Status === "P") {
+                        } else if (inter[i].Status === "P") {
                             statut = "<img alt='carte' src='images/probleme.png' width='20'> Problème";
-                        }
-                        else
+                        } else {
                             statut = "<img alt='carte' src='images/load.PNG' width='20'> En cours";
-                        
-                       $('#demandesRec').append(
+                        }
+
+                        $('#demandesRec').append(
+                                '<div class="demande">' +
                                 "<img alt='carte' src='images/interrogation.PNG' width='20'>" + inter[i].Type + " " + "<img alt='carte' src='images/calendrier.PNG' width='20'>" + inter[i].Date_Debut + statut + "</br>" +
-                                "Description :" + inter[i].Description + "</br>" +
-                                "Pris en charge par : " + inter[i].Nom_Employe + " " + inter[i].Prenom_Employe + "<br/>" +
+                                "Description : " + inter[i].Description + "</br>" +
+                                "Pris en charge par : " + inter[i].Prenom_Employe + " " + inter[i].Nom_Employe + "<br/>" +
                                 '<div id="tada'+i+'" style="display: none">' +
+                                label +
                                 "Terminée le : " + inter[i].Date_Fin + "</br>" +
-                                "Commentaire : " + inter[i].Commentaire + "</br>" + label + 
-                                '</div><input class="plus_moins" id="plus'+i+'" type="button" value="Plus ↓" onclick=\' $("#tada'+i+'").toggle(); $("#moins'+i+'").toggle(); $("#plus'+i+'").toggle(); \' style="display:block">' +
-                                '</div><input class="plus_moins" id="moins'+i+'" type="button" value="Moins ↑" onclick=\' $("#tada'+i+'").toggle(); $("#plus'+i+'").toggle(); $("#moins'+i+'").toggle();\' style="display:none">' +
-                                "<hr/>"
+                                "Commentaire : " + inter[i].Commentaire + "</br>" + 
+                                '</div><input class="plus_moins" id="plus'+i+'" type="button" value="plus ↓" onclick=\' $("#tada'+i+'").toggle(); $("#moins'+i+'").toggle(); $("#plus'+i+'").toggle(); \' style="display:block" />' +
+                                '<input class="plus_moins" id="moins'+i+'" type="button" value="moins ↑" onclick=\' $("#tada'+i+'").toggle(); $("#plus'+i+'").toggle(); $("#moins'+i+'").toggle();\' style="display:none" />' +
+                                "</div><br/>"
                                 );
+
                     }
                 });
             }

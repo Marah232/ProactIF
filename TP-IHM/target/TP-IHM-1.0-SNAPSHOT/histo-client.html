@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Proact'IF - Accueil employé</title>
+        <title>Proact'IF - Historique de vos demandes d'intervention</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="fichier_CSS.css">
@@ -8,7 +8,7 @@
     </head>
     <body>
         <header>
-            <img alt="logo" src="images/logo.PNG" width="200"> 
+            <img alt="logo" src="images/logo.PNG" width="200" style="float: left;"> 
             <br>
             Bonjour <div id="nom"></div> <br>
             Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
@@ -16,13 +16,14 @@
                 <ul id="menu_horizontal">
                     <li><a href="client.html">Accueil</a></li>
                     <li><a href="new.html">Nouvelle demande</a></li>
-                    <li><a href="histo-client.html">Historique des demandes</a></li>
-
+                    <li class="marked"><a href="histo-client.html">Historique des demandes</a></li>
                 </ul>
+                <br/>
             </div>
         </header>
         <section>
-            <h1>Historique de vos demandes</h1>
+            <h1 style='font:Comic Sans MS'>Historique de vos demandes d'intervention</h1>
+            <div id="search_box"><input type="search" placeholder="Rechercher par date, description..." /></div>
             <div id="demandesRec"></div>
         </section>
         <script>function getNom() {
@@ -65,15 +66,15 @@
 
                         }
                         if (inter[i].Type === "Incident") {
-                            label = "Type de l'intervention : Incident";
+                            label = "";
 
                         }
                         if (inter[i].Type === "Animal") {
-                            label = "Espece de l'animal : " + inter[i].Espece;
+                            label = "Espece de l'animal : " + inter[i].Espece + "<br/>";
 
                         }
                         if (inter[i].Type === "Livraison") {
-                            label = "Type de livraison : " + inter[i].TypeLivraison + "<br>" + "Entreprise de livraison : " + inter[i].EntrepriseLivraison;
+                            label = "Type de livraison : " + inter[i].TypeLivraison + "<br />" + "Entreprise de livraison : " + inter[i].EntrepriseLivraison + "<br/>";
 
                         }
 
@@ -88,15 +89,17 @@
                         }
 
                         $('#demandesRec').append(
+                                '<div class="demande">' +
                                 "<img alt='carte' src='images/interrogation.PNG' width='20'>" + inter[i].Type + " " + "<img alt='carte' src='images/calendrier.PNG' width='20'>" + inter[i].Date_Debut + statut + "</br>" +
-                                "Description :" + inter[i].Description + "</br>" +
-                                "Pris en charge par : " + inter[i].Nom_Employe + " " + inter[i].Prenom_Employe + "<br/>" +
+                                "Description : " + inter[i].Description + "</br>" +
+                                "Pris en charge par : " + inter[i].Prenom_Employe + " " + inter[i].Nom_Employe + "<br/>" +
                                 '<div id="tada'+i+'" style="display: none">' +
+                                label +
                                 "Terminée le : " + inter[i].Date_Fin + "</br>" +
-                                "Commentaire : " + inter[i].Commentaire + "</br>" + label + 
-                                '</div><input class="plus_moins" id="plus'+i+'" type="button" value="Plus ↓" onclick=\' $("#tada'+i+'").toggle(); $("#moins'+i+'").toggle(); $("#plus'+i+'").toggle(); \' style="display:block">' +
-                                '</div><input class="plus_moins" id="moins'+i+'" type="button" value="Moins ↑" onclick=\' $("#tada'+i+'").toggle(); $("#plus'+i+'").toggle(); $("#moins'+i+'").toggle();\' style="display:none">' +
-                                "<hr/>"
+                                "Commentaire : " + inter[i].Commentaire + "</br>" + 
+                                '</div><input class="plus_moins" id="plus'+i+'" type="button" value="plus ↓" onclick=\' $("#tada'+i+'").toggle(); $("#moins'+i+'").toggle(); $("#plus'+i+'").toggle(); \' style="display:block" />' +
+                                '<input class="plus_moins" id="moins'+i+'" type="button" value="moins ↑" onclick=\' $("#tada'+i+'").toggle(); $("#plus'+i+'").toggle(); $("#moins'+i+'").toggle();\' style="display:none" />' +
+                                "</div><br/>"
                                 );
 
                     }

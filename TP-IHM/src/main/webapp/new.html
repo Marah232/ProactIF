@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Proact'IF - Accueil employé</title>
+        <title>Proact'IF - Nouvelle demande d'intervention</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="fichier_CSS.css">
@@ -8,42 +8,44 @@
     </head>
     <body>
         <header>
-            <img alt="logo" src="images/logo.PNG" width="200"> 
+            <img alt="logo" src="images/logo.PNG" width="200" style="float: left;"> 
             <br>
-                Bonjour <div id="nom"></div> <br>
-                Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
-                <div align="right">
-                    <ul id="menu_horizontal">
-                        <li><a href="client.html">Accueil</a></li>
-                        <li><a href="new.html">Nouvelle demande</a></li>
-                        <li><a href="histo-client.html">Historique des demandes</a></li>
-
-                    </ul>
-                </div>
-         </header>
+            Bonjour <div id="nom"></div> <br>
+            Ce n'est pas vous ? <a href="login.html"> Déconnexion</a>  
+            <div align="right">
+                <ul id="menu_horizontal">
+                    <li><a href="client.html">Accueil</a></li>
+                    <li class="marked"><a href="new.html">Nouvelle demande</a></li>
+                    <li><a href="histo-client.html">Historique des demandes</a></li>
+                </ul>
+                <br/>
+            </div>
+        </header>
         <section>
-            <div id="form">
+            <div id="form" class="form_new">
                 <form>
                     <fieldset>
                         <legend>Demande d'intervention</legend>
+                        <br/>
                         <label for="intervention">Type d'intervention :</label>
                         <select name="intervention" id="intervention">
                             <option value="animal">Animal</option>
                             <option value="incident">Incident</option>
                             <option value="livraison">Livraison</option>
-                        </select> <br/>
+                        </select> <br/><br/>
                          <label for="description">Description :</label>
-                         <input id="description" type="text" name="description" class="grandeBoite" required=""><br/>
+                         <input id="description" type="text" name="description" class="grandeBoite" required="" style="height: 50px"><br/><br/>
 
                          <label for="espece">Espèce de l'animal :</label>
-                         <input id="espece" type="text" name="espece" class="petiteBoite"><br/>
+                         <input id="espece" type="text" name="espece" class="petiteBoite"><br/><br/>
 
                          <label for="type">Type de livraison :</label>
-                         <input id="type" type="text" name="type" class="petiteBoite"><br/>
+                         <input id="type" type="text" name="type" class="petiteBoite"><br/><br/>
 
                          <label for="livraison">Entreprise de livraison :</label>
-                         <input id="livraison" type="text" name="livraison" class="petiteBoite"><br/>
-                         <input type="submit" value="Valider" id="boutonValider">
+                         <input id="livraison" type="text" name="livraison" class="petiteBoite"><br/><br/>
+                         <a href="client.html" style="-webkit-appearance: button; -moz-appearance: button;appearance: button; text-decoration: none; color:black">Annuler</a>
+                         <input type="submit" value="Valider" id="boutonValider" style="float: right">
                     </fieldset>
                 </form>
                 <div id="message"></div>
@@ -100,10 +102,15 @@
                     },
                     dataType: 'json'
                 }).done(function (data) {
-                    if (data.errors.length > 0)
+                    if (data.errors.length > 0) {
                         $('#message').html(data.errors);
-                    else
+                        $('#message').attr('style', 'color: red;')
+
+                    }
+                    else {
                         $('#message').html('Votre demande a bien été prise en compte.');
+                        $('#message').attr('style', 'color: green;')
+                    }
                 });
             }
 
